@@ -50,3 +50,7 @@ class IRSignalTable(SQLModel, table=True):
 
     def convert_ir_signal(self) -> IRSignal:
         return IRSignal(freq=self.freq, data=self.data, format=self.format)
+
+
+class IRSignalNames(BaseModel):
+    names: List[str]
