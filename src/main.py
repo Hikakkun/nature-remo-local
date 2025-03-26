@@ -6,6 +6,7 @@ from fastapi import FastAPI
 from nature_locak_api_client import NatureLocalAPIClient
 from contextlib import asynccontextmanager
 from api_endpoints import include_routes
+import argparse  # argparseモジュールを追加
 
 
 db_file = Path("./ir_signals.db")
@@ -29,4 +30,12 @@ include_routes(app, engine, client)
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host="0.0.0.0", port=8001)
+    parser = argparse.ArgumentParser(description="FastAPI application with configurable port.")
+    parser.add_argument(
+        "--port",
+        type=int,
+        default=8001,
+        help="Port number to run the application on (default: 8001)",
+    )
+    args = parser.parse_args()
+    uvicorn.run(app, host="0.0.0.0", port=args.port)
