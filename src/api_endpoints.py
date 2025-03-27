@@ -94,30 +94,30 @@ def get_all_ir_signal_names(engine: Engine) -> IRSignalNames:
 
 
 def include_routes(app: FastAPI, engine: Engine, client: NatureLocalAPIClient):
-    @app.get("/nature.remo.local/signals", response_model=IRSignalNames)
+    @app.get("/signals", response_model=IRSignalNames)
     async def get_all_ir_signal_names_endpoint():
         return get_all_ir_signal_names(engine)
 
-    @app.get("/nature.remo.local/signals/{name}", response_model=IRSignal)
+    @app.get("/signals/{name}", response_model=IRSignal)
     async def get_ir_signal_endpoint(name: str):
         return get_ir_signal(engine, name)
 
     @app.post(
-        "/nature.remo.local/signals/{name}/send", status_code=status.HTTP_204_NO_CONTENT
+        "/signals/{name}/send", status_code=status.HTTP_204_NO_CONTENT
     )
     async def send_ir_signal_endpoint(name: str):
         send_ir_signal(engine, name, client)
 
-    @app.put("/nature.remo.local/signals/{name}", status_code=status.HTTP_200_OK)
+    @app.put("/signals/{name}", status_code=status.HTTP_200_OK)
     async def update_ir_signal_endpoint(name: str, ir_signal: IRSignal):
         return update_ir_signal(engine, name, ir_signal)
 
-    @app.post("/nature.remo.local/signals/{name}", status_code=status.HTTP_201_CREATED)
+    @app.post("/signals/{name}", status_code=status.HTTP_201_CREATED)
     async def create_signal_endpoint(name: str, ir_signal: IRSignal):
         return create_signal(engine, name, ir_signal)
 
     @app.delete(
-        "/nature.remo.local/signals/{name}", status_code=status.HTTP_204_NO_CONTENT
+        "/signals/{name}", status_code=status.HTTP_204_NO_CONTENT
     )
     async def delete_ir_signal_endpoint(name: str):
         delete_ir_signal(engine, name)
